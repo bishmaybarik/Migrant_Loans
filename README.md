@@ -1,10 +1,10 @@
-# Migration of People and their Loan Behaviour across Indian States
+# Migration of People and Their Loan Behavior Across Indian States
 
-## Introduction
+This repository contains code and graphical representations that explore the migration of citizens across Indian states and its impact on loan-taking behavior. Specifically, this analysis investigates the reliance on **formal** and **informal loan structures** among migrants.
 
-This repository consists of codes and graphical representations of migration of citizens across states, and how has their movement affected the loan taking behaviour across states. When I say the loan taking behaviour, I mean their dependence on Formal and Informal Loan structures. 
+## Repository Structure
 
-To begin with, here is the repository structure, and the graphical results which you can find across states. 
+Below is the structure of the repository, highlighting the datasets, scripts, and visualizations included:
 
 ```
 Migrant_Loans/
@@ -49,28 +49,30 @@ Migrant_Loans/
 │           ├── informal_borrowings_heatmap.png  # Heatmap for informal borrowings
 │
 ├── .gitignore                          # Specifies files and folders to be ignored by Git
-│                                        # Example: *.csv, *.xlsx, __pycache__/, etc.
 │
-├── LICENSE                             # License file for the project (e.g., MIT, GPL, or custom license)
+├── LICENSE                             # License file for the project
 │
 ├── README.md                           # Project overview and documentation
 ```
-
 ## Formal and Informal Loans
 
-According to the CPHS-CMIE data, these are the distinctions I have made between the formal and the informal loan sources:
+The **CPHS-CMIE** dataset serves as the primary source for distinguishing between formal and informal loan structures. The classifications are as follows:
 
-Formal Loan Sources:
-- Borrowings from Banks
-- Borrowings from NBFC dealers
-- Credit Card Borrowings
+### Formal Loan Sources
+- Borrowings from Banks  
+- Borrowings from NBFC Dealers  
+- Credit Card Borrowings  
 
-Informal Loan Sources:
-- Borrowings from Money Lenders
-- Borrowings from Employers
-- Borrowings from Relatives and Friends
-- Borrowings from Self-Help Groups
-- Borrowings from Microfinance Institutions
-- Borrowings from Chitfunds
-- Borrowings from Other Sources
+### Informal Loan Sources
+- Borrowings from Money Lenders  
+- Borrowings from Employers  
+- Borrowings from Relatives and Friends  
+- Borrowings from Self-Help Groups  
+- Borrowings from Microfinance Institutions  
+- Borrowings from Chit Funds  
+- Borrowings from Other Sources  
+
+---
+
+This repository provides insights into the financial behaviors of migrants, with a focus on how migration influences their dependence on various loan structures. Explore the results and code files for detailed analysis and visualizations.
 
