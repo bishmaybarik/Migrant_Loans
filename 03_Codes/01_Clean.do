@@ -326,3 +326,105 @@ display "All datasets have been appended successfully!"
 summarize
 
 save "$output/People of India/aspirationa_india.dta", replace
+
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+
+************* Now working with the district level data *************************
+
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+
+clear all
+
+* Importing the datasets
+
+local states "west_bengal delhi jammu_kashmir jharkhand karnataka kerala lakshadweep madhya_pradesh maharashtra manipur meghalaya mizoram nagaland odisha puducherry punjab rajasthan sikkim tamil_nadu tripura uttar_pradesh uttarakhand goa gujarat haryana himachal_pradesh andaman_nicobar andhra_pradesh arunachal_pradesh assam bihar chandigarh chhatisgarh dadra_nagar_haveli daman_diu" // All states present in the raw data folder
+
+foreach state in `states' {
+    // Construct file paths
+    local input_path "$raw/Census Districts Data/2011/`state'.XLSX"
+    local output_path "$output/Census Districts Data/2011/`state'.dta"
+
+    // Import the Excel file
+    import excel "`input_path'", sheet("D-05") clear
+
+    // Rename variables
+    drop A
+    rename B state
+    rename C district 
+    rename D area_name
+    rename E place_of_enumeration
+    rename F duration_of_residence
+    rename G age_group
+    rename H last_residence
+    rename I total_people
+    rename L people_for_work
+    rename O people_for_business
+    rename R people_for_education
+    rename U people_for_marriage
+    rename X people_after_birth
+    rename AA people_moved_with_hh
+    rename AD people_other_reasons
+
+    // Keep only necessary variables
+    keep state district area_name place_of_enumeration duration_of_residence age_group last_residence total_people people_for_work people_for_business people_for_education people_for_marriage people_after_birth people_moved_with_hh people_other_reasons
+
+    // Retain only district-level data
+    drop if _n < 6
+    drop if district == "000"
+
+    // Add state name as a new variable
+    // gen state_name = "`: proper `state''" // Converts to proper case, e.g., "Andaman & Nicobar"
+
+    // Reorder variables
+    order state district area_name 
+
+    // Save the dataset in .dta format
+    save "`output_path'", replace
+}
+
+***** Appending all 2011 datasets which is at the state (district) level ******
+
+clear
+
+// List of states to append
+local states "west_bengal delhi jammu_kashmir jharkhand karnataka kerala lakshadweep madhya_pradesh maharashtra manipur meghalaya mizoram nagaland odisha puducherry punjab rajasthan sikkim tamil_nadu tripura uttar_pradesh uttarakhand goa gujarat haryana himachal_pradesh andaman_nicobar andhra_pradesh arunachal_pradesh assam bihar chandigarh chhatisgarh dadra_nagar_haveli daman_diu"
+
+// Initialize the combined dataset
+local first = 1
+
+foreach state in `states' {
+    local input_path "$output/Census Districts Data/2011/`state'.dta"
+    
+    if `first' {
+        use "`input_path'", clear
+        gen source_state = "`state'" // Create a variable to track the source state
+        save "$output/Census Districts Data/2011/all_states_combined.dta", replace
+        local first = 0
+    }
+    else {
+        append using "`input_path'"
+        replace source_state = "`state'" if missing(source_state) // Update source state for appended data
+        save "$output/Census Districts Data/2011/all_states_combined.dta", replace
+    }
+}
+
+sort state district
+
+drop if missing(state)
+
+// Final save of the combined dataset
+save "$output/Census Districts Data/2011/all_india.dta", replace
