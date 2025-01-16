@@ -371,7 +371,13 @@ clear
 
 use "$output/Census Districts Data/2011/all_india.dta", clear
 
-keep if age_group == "All ages" & duration_of_residence == "All durations of residence" & place_of_enumeration == "Total" & last_residence == "Total"
+keep if age_group == "All ages" & place_of_enumeration == "Total" & last_residence == "Total" // & duration_of_residence == "All durations of residence"
+
+drop if duration_of_residence == "All durations of residence"
+
+drop place_of_enumeration age_group last_residence
+
+export delimited "$output/Census Districts Data/2011/total_migration_with_duration.csv", replace
 
 // Encoding some variables
 
@@ -436,4 +442,4 @@ format total_people %12.0f
 
 sort state district
 
-export delimited "$output/Census Districts Data/2011/total_migration_with_reasons.csv", replace
+export delimited "$output/Census Districts Data/2001/total_migration_with_reasons.csv", replace
